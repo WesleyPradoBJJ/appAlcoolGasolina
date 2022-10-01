@@ -37,6 +37,7 @@ class ViewController: UIViewController {
         ethanolPriceLabel.font = UIFont.boldSystemFont(ofSize: 18)
         ethanolPriceTextField.placeholder = "Ex: 2.99"
         ethanolPriceTextField.textAlignment = .center
+        ethanolPriceTextField.keyboardType = .decimalPad
         ethanolPriceTextField.delegate = self
         
         
@@ -45,6 +46,8 @@ class ViewController: UIViewController {
         gasPriceLabel.font = UIFont.boldSystemFont(ofSize: 18)
         gasPriceTextField.placeholder = "Ex: 2.99"
         gasPriceTextField.textAlignment = .center
+        gasPriceTextField.keyboardType = .decimalPad
+        //gasPriceTextField.
         gasPriceTextField.delegate = self
         
         calculateButton.setTitle("Calcular", for: .normal)
@@ -59,21 +62,32 @@ class ViewController: UIViewController {
     }
     
     @IBAction func tappedCalculateButton(_ sender: UIButton) {
+        let ethanolPrice:Double = Double(ethanolPriceTextField.text ?? "") ?? 0.0
+        let gasPrice:Double = Double(gasPriceTextField.text ?? "") ?? 0.0
+        
+        if ethanolPrice / gasPrice > 0.7 {
+            resultLabel.text = "Melhor utilizar gasolina!"
+        } else {
+            resultLabel.text = "Melhor utilizar álcool!"
+        }
     }
     
     
 }
 
 extension ViewController: UITextFieldDelegate {
-    func textFieldDidBeginEditing(_ textField: UITextField) {
-        <#code#>
-    }
+    
 
     func textFieldDidEndEditing(_ textField: UITextField) {
-        <#code#>
+        if ethanolPriceTextField.text == "" || gasPriceTextField.text == ""{
+            calculateButton.isEnabled = false
+        } else {
+            calculateButton.isEnabled = true
+        }
     }
 
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
         return true
     }
 }
